@@ -25,6 +25,19 @@ interface WeatherDao {
     }
 
     @Transaction
+    suspend fun deleteWeatherData() {
+        deleteForecast()
+        deleteDailyForecasts()
+    }
+
+    @Query("DELETE FROM weatherforecastentity")
+    suspend fun deleteForecast()
+
+    @Query("DELETE FROM dailyforecastentity")
+    suspend fun deleteDailyForecasts()
+
+
+    @Transaction
     @Query("SELECT * FROM weatherforecastentity LIMIT 1")
     fun getWeatherWithDailyForecast(): Flow<WeatherWithDailyForecast?>
 

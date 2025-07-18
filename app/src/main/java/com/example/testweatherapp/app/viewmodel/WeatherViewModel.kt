@@ -1,6 +1,7 @@
 package com.example.testweatherapp.app.viewmodel
 
 import android.location.Location
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +13,7 @@ import com.example.testweatherapp.domain.usecase.FetchWeatherUseCase
 import com.example.testweatherapp.domain.usecase.GetWeatherUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -24,7 +26,7 @@ class WeatherViewModel @Inject constructor(
     private val locationUseCase: LocationUseCase,
     private val fetchWeatherUseCase: FetchWeatherUseCase,
     private val getWeatherUseCase: GetWeatherUseCase,
-    private val networkStatusProvider: NetworkStatusProvider,
+    networkStatusProvider: NetworkStatusProvider,
 ) : ViewModel() {
 
     private val location = mutableStateOf<Location?>(null)
@@ -33,18 +35,12 @@ class WeatherViewModel @Inject constructor(
 
     val isNetworkAvailable = networkStatusProvider.isNetworkAvailable()
 
-    init {
-        viewModelScope.launch {
-            if (isNetworkAvailable.value && location.value != null) {
-                refreshWeatherData()
-            }
-        }
-    }
+    var job: Job? = null
 
-    fun getLocation() = location.value
-
-    fun refreshWeatherData() {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun fetchWeatherData() {
+        // Cancel the previous job if it exists
+        job?.cancel()
+        job = viewModelScope.launch(Dispatchers.IO) {
 
             val currentLocation = locationUseCase.invoke()
             location.value = currentLocation
@@ -66,6 +62,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     suspend fun processData(weatherData: Flow<Weather?>) {
+        Log.d("WeatherViewModel", "processData: $weatherData")
         weatherData.catch {
             withContext(Dispatchers.Main) {
                 weatherState.value = Resource.Error(parseError(it))
@@ -78,6 +75,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun parseError(throwable: Throwable): String {
+        Log.d("WeatherViewModel", "parseError: $throwable")
             return when (throwable) {
                 is HttpException -> {
                    "HTTP Error: ${throwable.code()}"
@@ -91,6 +89,4 @@ class WeatherViewModel @Inject constructor(
     fun showLoading() {
         weatherState.value = Resource.Loading()
     }
-
-
 }

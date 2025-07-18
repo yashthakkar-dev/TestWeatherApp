@@ -17,7 +17,7 @@ data class NetworkWeather(
 ) {
     fun asForecastEntity(): WeatherForecastEntity =
         WeatherForecastEntity(
-            cityId = id,
+            cityId = city.id,
             cityName = city.name,
             country = city.country,
             message = message,

@@ -31,7 +31,7 @@ class NetworkStatusProviderImpl @Inject constructor(@ApplicationContext private 
         return isNetworkAvailable
     }
 
-    override fun registerNetworkStatus(context: Context) {
+    override fun registerNetworkStatus() {
         connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

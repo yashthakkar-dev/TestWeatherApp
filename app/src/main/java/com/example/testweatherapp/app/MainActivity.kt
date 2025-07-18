@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        networkStatusProvider.registerNetworkStatus(this)
+        networkStatusProvider.registerNetworkStatus()
     }
 
     override fun onStop() {

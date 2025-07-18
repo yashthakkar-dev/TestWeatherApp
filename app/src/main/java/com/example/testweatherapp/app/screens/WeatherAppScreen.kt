@@ -1,5 +1,6 @@
 package com.example.testweatherapp.app.screens
 
+import android.Manifest
 import android.widget.Toast
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -13,10 +14,11 @@ import com.example.testweatherapp.app.screens.components.MainContent
 import com.example.testweatherapp.app.viewmodel.WeatherViewModel
 import com.example.testweatherapp.data.Resource
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun WeatherApp(
+fun WeatherAppScreen(
     navController: NavController,
     viewModel: WeatherViewModel = hiltViewModel()
 ) {
@@ -27,9 +29,35 @@ fun WeatherApp(
 
     val isConnected by viewModel.isNetworkAvailable.collectAsState()
 
+    val permissionState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    )
+
+    LaunchedEffect(permissionState.allPermissionsGranted) {
+        if (permissionState.allPermissionsGranted) {
+            viewModel.fetchWeatherData()
+        } else {
+            permissionState.launchMultiplePermissionRequest()
+        }
+    }
+
     LaunchedEffect(isConnected) {
-        if (isConnected && viewModel.getLocation() != null) {
-            viewModel.refreshWeatherData()
+        if (isConnected) {
+            if (permissionState.allPermissionsGranted) {
+                viewModel.fetchWeatherData()
+            }
+            else {
+                Toast.makeText(
+                    context,
+                    "Please grant location permission to get weather data",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } else {
+            //no need to re-fetch weather data on network change if not connected
         }
     }
 
@@ -38,7 +66,7 @@ fun WeatherApp(
         is Resource.Error -> {
             Toast.makeText(
                 context,
-                state.message ?: "An unexpected error occurred",
+                state.message,
                 Toast.LENGTH_LONG
             ).show()
         }

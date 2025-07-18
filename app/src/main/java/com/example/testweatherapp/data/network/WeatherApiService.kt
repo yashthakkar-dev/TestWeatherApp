@@ -2,6 +2,7 @@ package com.example.testweatherapp.data.network
 
 import com.example.testweatherapp.BuildConfig
 import com.example.testweatherapp.data.network.model.NetworkWeather
+import com.example.testweatherapp.data.repository.datasourceImpl.WeatherRemoteDataSourceImpl.Companion.DAYS_COUNT
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,8 +11,9 @@ interface WeatherApiService {
     suspend fun fetchWeatherByLocation(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("cnt") cnt: Int = 7,
+        @Query("cnt") cnt: Int = DAYS_COUNT,
         @Query("appid") appid: String = BuildConfig.API_KEY,
-        @Query("units") units: String = "metric"
+        //This is deprecated api, sometimes application crashes if units added
+//        @Query("units") units: String = "metric"
     ): NetworkWeather
 }

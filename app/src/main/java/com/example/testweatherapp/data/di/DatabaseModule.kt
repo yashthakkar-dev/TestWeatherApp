@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class DatabaseModule {
     @Singleton
     @Provides
-    fun provideWeatherDatabase(app: Application): WeatherDatabase{
+    fun provideWeatherDatabase(app: Application): WeatherDatabase {
         return Room.databaseBuilder(app, WeatherDatabase::class.java,DATABASE_NAME)
             .fallbackToDestructiveMigration(false)
             .build()
