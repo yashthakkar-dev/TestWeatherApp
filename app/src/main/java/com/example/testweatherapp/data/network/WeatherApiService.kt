@@ -2,7 +2,7 @@ package com.example.testweatherapp.data.network
 
 import com.example.testweatherapp.BuildConfig
 import com.example.testweatherapp.data.network.model.NetworkWeather
-import com.example.testweatherapp.data.repository.datasourceImpl.WeatherRemoteDataSourceImpl.Companion.DAYS_COUNT
+import com.example.testweatherapp.domain.util.Constants.DAYS_COUNT
 import retrofit2.http.GET
 import retrofit2.http.Query
 

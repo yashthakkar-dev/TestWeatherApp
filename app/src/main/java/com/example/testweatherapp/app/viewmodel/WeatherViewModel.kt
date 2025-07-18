@@ -80,14 +80,15 @@ class WeatherViewModel @Inject constructor(
 
     fun parseError(throwable: Throwable): String {
         Log.d(TAG, "parseError: $throwable")
-            return when (throwable) {
-                is HttpException -> {
-                   "HTTP Error: ${throwable.code()}"
-                }
-                else -> {
-                    "Error: ${throwable.message}"
-                }
+        return when (throwable) {
+            is HttpException -> {
+                "HTTP Error: ${throwable.code()}"
             }
+
+            else -> {
+                "Error: ${throwable.message}"
+            }
+        }
     }
 
     fun showLoading() {

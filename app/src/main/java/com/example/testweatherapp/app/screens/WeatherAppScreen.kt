@@ -49,8 +49,7 @@ fun WeatherAppScreen(
         if (isConnected) {
             if (permissionState.allPermissionsGranted) {
                 viewModel.fetchWeatherData()
-            }
-            else {
+            } else {
                 Toast.makeText(
                     context,
                     context.getString(R.string.please_grant_location_permission_to_get_weather_data),
@@ -71,6 +70,7 @@ fun WeatherAppScreen(
                 Toast.LENGTH_LONG
             ).show()
         }
+
         is Resource.Success -> state.data?.let {
             MainContent(navController = navController, data = it)
         }

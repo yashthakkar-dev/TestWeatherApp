@@ -9,10 +9,6 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
     private val weatherApiService: WeatherApiService
 ): WeatherRemoteDataSource {
 
-    companion object {
-        const val DAYS_COUNT = 7
-    }
-
     override suspend fun fetchWeatherByLocation(lat: Double, lon: Double) = flow {
         emit(weatherApiService.fetchWeatherByLocation(lat, lon))
     }

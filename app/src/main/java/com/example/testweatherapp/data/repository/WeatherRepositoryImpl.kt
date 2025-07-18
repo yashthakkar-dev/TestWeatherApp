@@ -39,8 +39,11 @@ class WeatherRepositoryImpl @Inject constructor(
                         weatherItem.asDailyForecastEntity(it.city.id)
                     }
                 )
+
                 Log.d(TAG, "weatherWithDailyForecast $weatherWithDailyForecast")
+
                 this.emit(weatherWithDailyForecast.asDomainModel())
+
                 weatherLocalDataSource.deleteWeatherData()
                 weatherLocalDataSource.saveWeatherData(weatherWithDailyForecast)
             }
