@@ -36,9 +36,9 @@
 
 ## 🧱 Design Patterns Used
 
-- **Creational**: Singleton (e.g., Retrofit instance)
-- **Structural**: Adapter (e.g., mapping DTOs to domain models)
-- **Behavioral**: Observer (via Kotlin Flow for data updates)
+- **Creational**: Singleton (e.g., Dependency injection)
+- **Structural**: Adapter (e.g., mapping DTOs to domain models), Facade (local/remote data sources)
+- **Behavioral**: Observer (via Kotlin Flow for data updates), State (UI state handling in Compose)
 
 ---
 
