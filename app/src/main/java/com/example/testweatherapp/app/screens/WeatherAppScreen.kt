@@ -37,27 +37,15 @@ fun WeatherAppScreen(
         )
     )
 
-    LaunchedEffect(permissionState.allPermissionsGranted) {
-        if (permissionState.allPermissionsGranted) {
+    LaunchedEffect(isConnected, permissionState.allPermissionsGranted) {
+        if (isConnected && permissionState.allPermissionsGranted) {
             viewModel.fetchWeatherData()
-        } else {
-            permissionState.launchMultiplePermissionRequest()
-        }
-    }
-
-    LaunchedEffect(isConnected) {
-        if (isConnected) {
-            if (permissionState.allPermissionsGranted) {
-                viewModel.fetchWeatherData()
-            } else {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.please_grant_location_permission_to_get_weather_data),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        } else {
-            //no need to re-fetch weather data on network change if not connected
+        } else if (isConnected && !permissionState.allPermissionsGranted) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.please_grant_location_permission_to_get_weather_data),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

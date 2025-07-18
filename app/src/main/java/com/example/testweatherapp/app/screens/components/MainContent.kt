@@ -21,10 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.testweatherapp.R
 import com.example.testweatherapp.app.screens.WeatherAppBar
 import com.example.testweatherapp.app.util.formatDate
 import com.example.testweatherapp.app.util.formatDecimals
@@ -102,7 +104,7 @@ fun MainContent(
                 SunsetSunRiseRow(weather = data.dailyWeatherForecastList[0])
 
                 Text(
-                    "This Week",
+                    stringResource(R.string.this_week),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )

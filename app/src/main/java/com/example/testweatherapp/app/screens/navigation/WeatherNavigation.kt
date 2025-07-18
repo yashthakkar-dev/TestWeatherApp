@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.testweatherapp.app.screens.AboutScreen
 import com.example.testweatherapp.app.screens.WeatherAppScreen
+import com.example.testweatherapp.app.screens.components.PermissionWrapper
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -14,10 +15,10 @@ fun WeatherNavigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = WeatherScreens.MainScreen.name
+        startDestination = WeatherScreens.RequestPermission.name
     ) {
 
-/*        composable(WeatherScreens.RequestPermission.name) { navBack ->
+        composable(WeatherScreens.RequestPermission.name) { navBack ->
             PermissionWrapper(
                 onPermissionGranted = {
                     navController.navigate(WeatherScreens.MainScreen.name) {
@@ -25,7 +26,7 @@ fun WeatherNavigation() {
                     }
                 }
             )
-        }*/
+        }
 
         composable(WeatherScreens.MainScreen.name) { navBack ->
             WeatherAppScreen(navController)
