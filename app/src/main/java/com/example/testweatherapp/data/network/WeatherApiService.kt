@@ -7,11 +7,11 @@ import retrofit2.http.Query
 
 interface WeatherApiService {
     @GET(value = "data/2.5/forecast/daily")
-    suspend fun getWeatherByLocation(
+    suspend fun fetchWeatherByLocation(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
         @Query("cnt") cnt: Int = 7,
         @Query("appid") appid: String = BuildConfig.API_KEY,
-//        @Query("units") units: String = "metric"
+        @Query("units") units: String = "metric"
     ): NetworkWeather
 }

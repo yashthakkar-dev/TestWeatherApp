@@ -1,11 +1,5 @@
 package com.example.testweatherapp.data
 
-//class DataOrException<T, Boolean, E : Exception>(
-//    var data: T? = null,
-//    var loading: Boolean? = null,
-//    var e: E? = null
-//) {}
-
 sealed class Resource<T> (
     val data: T? = null,
     val message: String? = null

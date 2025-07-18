@@ -1,4 +1,4 @@
-package com.example.testweatherapp.app.di
+package com.example.testweatherapp.data.di
 
 import android.content.Context
 import com.example.testweatherapp.data.location.LocationProvider
@@ -6,6 +6,7 @@ import com.example.testweatherapp.data.repository.LocationRepositoryImpl
 import com.example.testweatherapp.data.repository.WeatherRepositoryImpl
 import com.example.testweatherapp.data.repository.datasource.WeatherLocalDataSource
 import com.example.testweatherapp.data.repository.datasource.WeatherRemoteDataSource
+import com.example.testweatherapp.domain.network.NetworkStatusProvider
 import com.example.testweatherapp.domain.repository.LocationRepository
 import com.example.testweatherapp.domain.repository.WeatherRepository
 import dagger.Module
@@ -22,9 +23,10 @@ class RepositoryModule {
     @Provides
     fun provideWeatherRepository(
         weatherRemoteDataSource: WeatherRemoteDataSource,
-        weatherLocalDataSource: WeatherLocalDataSource
+        weatherLocalDataSource: WeatherLocalDataSource,
+        networkStatusProvider: NetworkStatusProvider
     ): WeatherRepository{
-        return WeatherRepositoryImpl(weatherRemoteDataSource, weatherLocalDataSource)
+        return WeatherRepositoryImpl(weatherRemoteDataSource, weatherLocalDataSource, networkStatusProvider)
     }
 
     @Singleton

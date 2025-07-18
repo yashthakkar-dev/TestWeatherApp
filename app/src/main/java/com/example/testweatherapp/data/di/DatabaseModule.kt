@@ -1,7 +1,8 @@
-package com.example.testweatherapp.app.di
+package com.example.testweatherapp.data.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.testweatherapp.domain.util.Constants.DATABASE_NAME
 import com.example.testweatherapp.data.network.WeatherApiService
 import com.example.testweatherapp.data.db.WeatherDao
 import com.example.testweatherapp.data.db.WeatherDatabase
@@ -21,7 +22,7 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideWeatherDatabase(app: Application): WeatherDatabase{
-        return Room.databaseBuilder(app, WeatherDatabase::class.java,"weather_db")
+        return Room.databaseBuilder(app, WeatherDatabase::class.java,DATABASE_NAME)
             .fallbackToDestructiveMigration(false)
             .build()
     }

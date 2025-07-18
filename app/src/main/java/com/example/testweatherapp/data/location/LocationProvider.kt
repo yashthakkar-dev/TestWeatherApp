@@ -50,7 +50,6 @@ class LocationProvider @Inject constructor(
             ).apply {
                 setWaitForAccurateLocation(false)
                 setMaxUpdates(5)
-                setMinUpdateIntervalMillis(500)
             }.build()
 
             val locationCallback = object : LocationCallback() {

@@ -19,9 +19,7 @@ interface WeatherDao {
     suspend fun insertDailyForecasts(forecasts: List<DailyForecastEntity>)
 
     @Transaction
-    suspend fun saveWeatherData(
-        weatherWithDailyForecast: WeatherWithDailyForecast
-    ) {
+    suspend fun saveWeatherData(weatherWithDailyForecast: WeatherWithDailyForecast) {
         insertForecast(weatherWithDailyForecast.weather)
         insertDailyForecasts(weatherWithDailyForecast.daily)
     }

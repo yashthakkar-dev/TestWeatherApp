@@ -7,20 +7,8 @@ import com.example.testweatherapp.domain.model.Weather
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {
-    suspend fun insertForecast(forecast: WeatherForecastEntity)
 
-    suspend fun insertDailyForecasts(forecasts: List<DailyForecastEntity>)
+    fun getWeatherWithDailyForecast(): Flow<Weather?>
 
-    suspend fun saveWeatherData(weatherWithDailyForecast: WeatherWithDailyForecast)
-
-    fun getWeatherWithDailyForecast(): Flow<WeatherWithDailyForecast?>
-
-    suspend fun getForecast(cityId: Int): WeatherForecastEntity?
-
-    fun getDailyForecasts(cityId: Int): Flow<List<DailyForecastEntity>>
-
-    suspend fun fetchWeather(
-        latitude: Double,
-        longitude: Double
-    ): Flow<Weather?>
+    suspend fun fetchWeather(latitude: Double, longitude: Double): Flow<Weather?>
 }

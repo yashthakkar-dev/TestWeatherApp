@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // Jetpack Lifecycle & ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

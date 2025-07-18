@@ -11,14 +11,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.testweatherapp.app.screens.WeatherApp
 import com.example.testweatherapp.app.screens.navigation.WeatherNavigation
-import com.example.testweatherapp.data.network.NetworkStatus
+import com.example.testweatherapp.domain.network.NetworkStatusProvider
 import com.example.testweatherapp.ui.theme.TestWeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var networkStatusProvider: NetworkStatusProvider
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -41,11 +46,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        NetworkStatus.registerNetworkStatus(this)
+        networkStatusProvider.registerNetworkStatus(this)
     }
 
     override fun onStop() {
         super.onStop()
-        NetworkStatus.unregisterNetworkStatus()
+        networkStatusProvider.unRegisterNetworkStatus()
     }
 }

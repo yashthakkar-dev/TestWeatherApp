@@ -1,6 +1,8 @@
-package com.example.testweatherapp.app.di
+package com.example.testweatherapp.domain.di
 
+import com.example.testweatherapp.domain.repository.LocationRepository
 import com.example.testweatherapp.domain.repository.WeatherRepository
+import com.example.testweatherapp.domain.usecase.LocationUseCase
 import com.example.testweatherapp.domain.usecase.FetchWeatherUseCase
 import dagger.Module
 import dagger.Provides
@@ -13,7 +15,13 @@ import javax.inject.Singleton
 class UseCaseModule {
     @Singleton
     @Provides
-    fun provideFetchWeatherUseCase(weatherRepository: WeatherRepository): FetchWeatherUseCase {
+    fun provideWeatherUseCase(weatherRepository: WeatherRepository): FetchWeatherUseCase {
         return FetchWeatherUseCase(weatherRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLocationUseCase(locationRepository: LocationRepository): LocationUseCase {
+        return LocationUseCase(locationRepository)
     }
 }

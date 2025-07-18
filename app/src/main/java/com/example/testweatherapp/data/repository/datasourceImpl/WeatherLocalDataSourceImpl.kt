@@ -12,14 +12,6 @@ class WeatherLocalDataSourceImpl @Inject constructor(
     private val weatherDao: WeatherDao
 ) : WeatherLocalDataSource {
 
-    override suspend fun insertForecast(forecast: WeatherForecastEntity) {
-        weatherDao.insertForecast(forecast)
-    }
-
-    override suspend fun insertDailyForecasts(forecasts: List<DailyForecastEntity>) {
-        weatherDao.insertDailyForecasts(forecasts)
-    }
-
     override suspend fun saveWeatherData(weatherWithDailyForecast: WeatherWithDailyForecast) {
         weatherDao.saveWeatherData(weatherWithDailyForecast)
     }
@@ -27,14 +19,5 @@ class WeatherLocalDataSourceImpl @Inject constructor(
     override fun getWeatherWithDailyForecast(): Flow<WeatherWithDailyForecast?> {
         return weatherDao.getWeatherWithDailyForecast()
     }
-
-    override suspend fun getForecast(cityId: Int): WeatherForecastEntity? {
-        return weatherDao.getForecast(cityId)
-    }
-
-    override fun getDailyForecasts(cityId: Int): Flow<List<DailyForecastEntity>> {
-        return weatherDao.getDailyForecasts(cityId)
-    }
-
 
 }
