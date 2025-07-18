@@ -5,12 +5,12 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testweatherapp.data.Resource
+import com.example.testweatherapp.app.util.Resource
 import com.example.testweatherapp.domain.model.Weather
 import com.example.testweatherapp.domain.network.NetworkStatusProvider
-import com.example.testweatherapp.domain.usecase.LocationUseCase
 import com.example.testweatherapp.domain.usecase.FetchWeatherUseCase
 import com.example.testweatherapp.domain.usecase.GetWeatherUseCase
+import com.example.testweatherapp.domain.usecase.LocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,8 +18,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 import retrofit2.HttpException
+import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
@@ -28,6 +28,10 @@ class WeatherViewModel @Inject constructor(
     private val getWeatherUseCase: GetWeatherUseCase,
     networkStatusProvider: NetworkStatusProvider,
 ) : ViewModel() {
+
+    companion object {
+        val TAG: String = WeatherViewModel::class.java.simpleName
+    }
 
     private val location = mutableStateOf<Location?>(null)
 
@@ -62,7 +66,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     suspend fun processData(weatherData: Flow<Weather?>) {
-        Log.d("WeatherViewModel", "processData: $weatherData")
+        Log.d(TAG, "processData: $weatherData")
         weatherData.catch {
             withContext(Dispatchers.Main) {
                 weatherState.value = Resource.Error(parseError(it))
@@ -75,7 +79,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun parseError(throwable: Throwable): String {
-        Log.d("WeatherViewModel", "parseError: $throwable")
+        Log.d(TAG, "parseError: $throwable")
             return when (throwable) {
                 is HttpException -> {
                    "HTTP Error: ${throwable.code()}"

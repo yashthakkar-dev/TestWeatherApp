@@ -14,6 +14,6 @@ interface WeatherApiService {
         @Query("cnt") cnt: Int = DAYS_COUNT,
         @Query("appid") appid: String = BuildConfig.API_KEY,
         //This is deprecated api, sometimes application crashes if units added
-//        @Query("units") units: String = "metric"
+        @Query("units") units: String = "metric"
     ): NetworkWeather
 }

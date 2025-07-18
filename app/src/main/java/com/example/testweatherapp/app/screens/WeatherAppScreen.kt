@@ -10,9 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.testweatherapp.R
 import com.example.testweatherapp.app.screens.components.MainContent
 import com.example.testweatherapp.app.viewmodel.WeatherViewModel
-import com.example.testweatherapp.data.Resource
+import com.example.testweatherapp.app.util.Resource
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
@@ -52,7 +53,7 @@ fun WeatherAppScreen(
             else {
                 Toast.makeText(
                     context,
-                    "Please grant location permission to get weather data",
+                    context.getString(R.string.please_grant_location_permission_to_get_weather_data),
                     Toast.LENGTH_LONG
                 ).show()
             }

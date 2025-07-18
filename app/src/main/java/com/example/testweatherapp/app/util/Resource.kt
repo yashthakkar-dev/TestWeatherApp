@@ -1,4 +1,4 @@
-package com.example.testweatherapp.data
+package com.example.testweatherapp.app.util
 
 sealed class Resource<T> (){
     data class Success<T> (val data: T) : Resource<T> ()

@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 class NetworkStatusProviderImpl @Inject constructor(@ApplicationContext private val context: Context) : NetworkStatusProvider {
 
+    // StateFlow to hold the network connectivity status
     private val isNetworkAvailable = MutableStateFlow(false)
 
     private lateinit var connectivityManager: ConnectivityManager

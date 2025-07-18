@@ -18,6 +18,10 @@ class WeatherRepositoryImpl @Inject constructor(
     private val networkStatusProvider: NetworkStatusProvider,
 ) : WeatherRepository {
 
+    companion object {
+        val TAG: String = WeatherRepositoryImpl::class.java.simpleName
+    }
+
     override fun getWeatherWithDailyForecast(): Flow<Weather?> {
         val weatherWithDailyForecast = weatherLocalDataSource.getWeatherWithDailyForecast()
         return weatherWithDailyForecast.map { it?.asDomainModel() }
@@ -35,12 +39,13 @@ class WeatherRepositoryImpl @Inject constructor(
                         weatherItem.asDailyForecastEntity(it.city.id)
                     }
                 )
-                Log.d("WeatherRepositoryImpl", "weatherWithDailyForecast $weatherWithDailyForecast")
+                Log.d(TAG, "weatherWithDailyForecast $weatherWithDailyForecast")
                 this.emit(weatherWithDailyForecast.asDomainModel())
                 weatherLocalDataSource.deleteWeatherData()
                 weatherLocalDataSource.saveWeatherData(weatherWithDailyForecast)
             }
         } else {
+            Log.d(TAG, "Internet not available, returning cached data")
             return weatherLocalDataSource.getWeatherWithDailyForecast()
                 .map { it?.asDomainModel() }
         }
