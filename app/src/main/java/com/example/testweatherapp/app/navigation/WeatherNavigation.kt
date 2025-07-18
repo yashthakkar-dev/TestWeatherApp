@@ -1,4 +1,4 @@
-package com.example.testweatherapp.app.screens.navigation
+package com.example.testweatherapp.app.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi

@@ -26,7 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.testweatherapp.app.screens.navigation.WeatherScreens
+import com.example.testweatherapp.app.navigation.WeatherScreens
 
 @Composable
 fun SettingDropDownMenu(

@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.testweatherapp.app.screens.navigation.WeatherNavigation
+import com.example.testweatherapp.app.navigation.WeatherNavigation
 import com.example.testweatherapp.domain.network.NetworkStatusProvider
 import com.example.testweatherapp.ui.theme.TestWeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint

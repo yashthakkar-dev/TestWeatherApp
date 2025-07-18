@@ -1,4 +1,4 @@
-package com.example.testweatherapp.app.screens.navigation
+package com.example.testweatherapp.app.navigation
 
 enum class WeatherScreens {
     RequestPermission,
