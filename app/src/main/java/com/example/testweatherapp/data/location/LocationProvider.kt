@@ -62,7 +62,12 @@ class LocationProvider @Inject constructor(
                     if (continuation.isActive && !availability.isLocationAvailable) {
                         Log.d(TAG, "Location not available")
                         fusedLocationClient.removeLocationUpdates(this)
-                        continuation.resumeWith(Result.failure(NullPointerException("Location unavailable")))
+                        Log.d(TAG, "Falling back to last known location")
+                        if (lastLocation != null) {
+                            continuation.resume(lastLocation)
+                        } else {
+                            continuation.resumeWith(Result.failure(NullPointerException("Location unavailable")))
+                        }
                     }
                 }
             }

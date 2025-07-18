@@ -65,13 +65,3 @@ Includes:
 -Assisted in validating architectural decisions, resolving errors, and implementing test cases more efficiently.
 -Helped accelerate development by providing real-time guidance and optimization suggestions aligned with best practices.
 
----
-
-## 🚀 Future Improvements
-
-- Add support for searching weather by city name.
-- Allow users to mark cities as favorites for quick access.
-- Implement background sync using WorkManager to keep data fresh periodically.
-- Add a UI for viewing hourly forecasts in addition to daily data.
-- Introduce theming (light/dark mode) based on system preferences.
-- Add animations or transitions to enhance user experience.

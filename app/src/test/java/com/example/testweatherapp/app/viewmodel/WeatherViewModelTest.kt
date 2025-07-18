@@ -4,8 +4,7 @@ import com.example.testweatherapp.app.util.Resource
 import com.example.testweatherapp.domain.model.DailyWeatherForecast
 import com.example.testweatherapp.domain.model.Weather
 import com.example.testweatherapp.domain.network.NetworkStatusProvider
-import com.example.testweatherapp.domain.usecase.FetchWeatherUseCase
-import com.example.testweatherapp.domain.usecase.GetWeatherUseCase
+import com.example.testweatherapp.domain.usecase.WeatherUseCase
 import com.example.testweatherapp.domain.usecase.LocationUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -37,8 +36,7 @@ import org.robolectric.annotation.Config
 class WeatherViewModelTest {
 
     private val locationUseCase = mockk<LocationUseCase>()
-    private val fetchWeatherUseCase = mockk<FetchWeatherUseCase>()
-    private val getWeatherUseCase = mockk<GetWeatherUseCase>()
+    private val weatherUseCase = mockk<WeatherUseCase>()
     private val networkStatusProvider = mockk<NetworkStatusProvider>()
     private lateinit var viewModel: WeatherViewModel
 
@@ -109,8 +107,7 @@ class WeatherViewModelTest {
 
         viewModel = WeatherViewModel(
             locationUseCase = locationUseCase,
-            fetchWeatherUseCase = fetchWeatherUseCase,
-            getWeatherUseCase = getWeatherUseCase,
+            weatherUseCase = weatherUseCase,
             networkStatusProvider = networkStatusProvider
         )
     }
@@ -120,8 +117,8 @@ class WeatherViewModelTest {
         // Arrange
         val location = mockk<android.location.Location>()
         val expectedWeather = dummyWeather
-        coEvery { locationUseCase.invoke() } returns location
-        coEvery { fetchWeatherUseCase.invoke(location) } returns flowOf(expectedWeather)
+        coEvery { locationUseCase.getCurrentLocation() } returns location
+        coEvery { weatherUseCase.fetchWeather(location) } returns flowOf(expectedWeather)
 
         // Act
         viewModel.fetchWeatherData()
@@ -143,17 +140,17 @@ class WeatherViewModelTest {
         )
 
         // Verify the use cases were called
-        coVerify(exactly = 1) { locationUseCase.invoke() }
-        coVerify(exactly = 1) { fetchWeatherUseCase.invoke(location) }
-        coVerify(exactly = 0) { getWeatherUseCase.invoke() }
+        coVerify(exactly = 1) { locationUseCase.getCurrentLocation() }
+        coVerify(exactly = 1) { weatherUseCase.fetchWeather(location) }
+        coVerify(exactly = 0) { weatherUseCase.getWeather() }
     }
 
     @Test
     fun `fetchWeatherData successful cached weather fetch when location is null`() = runTest(testDispatcher) {
         // Arrange
-        coEvery { locationUseCase.invoke() } returns null
+        coEvery { locationUseCase.getCurrentLocation() } returns null
         val expectedWeather = dummyWeather
-        coEvery { getWeatherUseCase.invoke() } returns flowOf(expectedWeather)
+        coEvery { weatherUseCase.getWeather() } returns flowOf(expectedWeather)
 
         // Act
         viewModel.fetchWeatherData()
@@ -175,9 +172,9 @@ class WeatherViewModelTest {
         )
 
         // Verify the use cases were called
-        coVerify(exactly = 1) { locationUseCase.invoke() }
-        coVerify(exactly = 0) { fetchWeatherUseCase.invoke(any()) }
-        coVerify(exactly = 1) { getWeatherUseCase.invoke() }
+        coVerify(exactly = 1) { locationUseCase.getCurrentLocation() }
+        coVerify(exactly = 0) { weatherUseCase.fetchWeather(any()) }
+        coVerify(exactly = 1) { weatherUseCase.getWeather() }
     }
 
     @Test
@@ -185,8 +182,8 @@ class WeatherViewModelTest {
         // Arrange
         val location = mockk<android.location.Location>()
         val exception = RuntimeException("Network error")
-        coEvery { locationUseCase.invoke() } returns location
-        coEvery { fetchWeatherUseCase.invoke(location) } returns flow { throw exception }
+        coEvery { locationUseCase.getCurrentLocation() } returns location
+        coEvery { weatherUseCase.fetchWeather(location) } returns flow { throw exception }
 
         // Act
         viewModel.fetchWeatherData()

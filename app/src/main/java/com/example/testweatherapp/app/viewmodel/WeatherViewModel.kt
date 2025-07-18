@@ -8,8 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.testweatherapp.app.util.Resource
 import com.example.testweatherapp.domain.model.Weather
 import com.example.testweatherapp.domain.network.NetworkStatusProvider
-import com.example.testweatherapp.domain.usecase.FetchWeatherUseCase
-import com.example.testweatherapp.domain.usecase.GetWeatherUseCase
+import com.example.testweatherapp.domain.usecase.WeatherUseCase
 import com.example.testweatherapp.domain.usecase.LocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val locationUseCase: LocationUseCase,
-    private val fetchWeatherUseCase: FetchWeatherUseCase,
-    private val getWeatherUseCase: GetWeatherUseCase,
+    private val weatherUseCase: WeatherUseCase,
     networkStatusProvider: NetworkStatusProvider,
 ) : ViewModel() {
 
@@ -45,22 +43,26 @@ class WeatherViewModel @Inject constructor(
         // Cancel the previous job if it exists
         job?.cancel()
         job = viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val currentLocation = locationUseCase.getCurrentLocation()
+                location.value = currentLocation
 
-            val currentLocation = locationUseCase.invoke()
-            location.value = currentLocation
+                currentLocation?.let {
+                    withContext(Dispatchers.Main) {
+                        showLoading()
+                    }
 
-            currentLocation?.let {
-                withContext(Dispatchers.Main) {
-                    showLoading()
+                    //pass current location
+                    val weatherData = weatherUseCase.fetchWeather(currentLocation)
+                    processData(weatherData)
+
+                } ?: run {
+                    //If location is null, fetch data from database
+                    val weatherData = weatherUseCase.getWeather()
+                    processData(weatherData)
                 }
-
-                //pass current location
-                val weatherData = fetchWeatherUseCase.invoke(currentLocation)
-                processData(weatherData)
-
-            } ?: run {
-                val weatherData = getWeatherUseCase.invoke()
-                processData(weatherData)
+            } catch (e: Exception) {
+                weatherState.value = Resource.Error(e.message ?: "Error fetching location data")
             }
         }
     }
