@@ -1,9 +1,9 @@
 [versions]
 coilCompose = "2.7.0"
 accompanistPermissions = "0.37.3"
-agp = "8.11.0"
+agp = "8.11.1"
 converterGson = "3.0.0"
-hiltAndroid = "2.56.2"
+hiltAndroid = "2.57"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
@@ -13,13 +13,16 @@ espressoCore = "3.6.1"
 kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesCore = "1.10.2"
 kotlinxCoroutinesPlayServices = "1.10.2"
-lifecycleRuntimeKtx = "2.9.1"
+kotlinxCoroutinesTest = "1.10.2"
+lifecycleRuntimeKtx = "2.9.2"
 activityCompose = "1.10.1"
-composeBom = "2025.06.01"
+composeBom = "2025.07.00"
 loggingInterceptor = "5.1.0"
+mockk = "1.14.5"
 okhttp = "5.1.0"
 playServicesLocation = "21.3.0"
 retrofit = "3.0.0"
+robolectric = "4.15.1"
 roomRuntime = "2.7.2"
 
 [libraries]
@@ -50,10 +53,13 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

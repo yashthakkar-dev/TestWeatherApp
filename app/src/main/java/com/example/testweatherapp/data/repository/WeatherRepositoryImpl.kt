@@ -42,10 +42,10 @@ class WeatherRepositoryImpl @Inject constructor(
 
                 Log.d(TAG, "weatherWithDailyForecast $weatherWithDailyForecast")
 
-                this.emit(weatherWithDailyForecast.asDomainModel())
-
                 weatherLocalDataSource.deleteWeatherData()
                 weatherLocalDataSource.saveWeatherData(weatherWithDailyForecast)
+
+                this.emit(weatherWithDailyForecast.asDomainModel())
             }
         } else {
             Log.d(TAG, "Internet not available, returning cached data")
